@@ -13,7 +13,7 @@ import boto3
 import logging
 
 logfile_name = datetime.now().strftime("%Y%m%d")
-logging.basicConfig(filename=f"/home/james/Projects/SecurityCamera/logs/log_{logfile_name}.log")
+logging.basicConfig(level=logging.DEBUG, filename=f"/home/james/Projects/SecurityCamera/logs/log_{logfile_name}.log")
 logging.info(f"Starting job: {datetime.now().isoformat()}")
 
 
