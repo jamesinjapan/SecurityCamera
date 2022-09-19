@@ -10,6 +10,12 @@ from datetime import datetime
 
 import boto3
 
+import logging
+
+logfile_name = datetime.now().strftime("%Y%m%d")
+logging.basicConfig(filename=f"log_{logfile_name}.log")
+logging.info(f"Starting job: {datetime.now().isoformat()}")
+
 
 load_dotenv()
 
@@ -29,10 +35,10 @@ def upload_to_aws(local_file = str) -> bool:
     
     try:
         s3.upload_file(local_file, bucket, path_from_current_time(local_file))
-        print(f"Upload Successful: {local_file}")
+        logging.info(f"Upload Successful: {local_file}")
         return True
     except:
-        print(f"Error occurred! {local_file}")
+        logging.error(f"Error occurred! {local_file}")
         return False
 
 
@@ -50,7 +56,7 @@ files_to_delete = []
 
 for file in glob.glob(ftp_dir_path + '**/*.*', recursive=True):
     if Path(file).suffix == '.265':
-        print(f'Converting {file}')
+        logging.info(f'Converting {file}')
         old_file = file
         file = convert_to_mp4(old_file)
         files_to_delete.append(old_file)
@@ -66,7 +72,7 @@ for file in files_to_upload:
 
 for file in files_to_delete:
     os.remove(file)
-    print(f"Deleted: {file}")
+    logging.info(f"Deleted: {file}")
 
 # Clean up empty folders
 folders = list(os.walk(ftp_dir_path))[1:]
