@@ -27,3 +27,7 @@
 
 # Secrets!
 .env
+
+# Package files
+lambdas/send_to_line/package/
+lambdas/send_to_line/*.zip
